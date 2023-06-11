@@ -8,7 +8,7 @@
         <v-row class="flex flex-column-reverse animated animate__fadeInLeft">
           <div class="ilustration">
             <img
-              src="/images/login-polisi-2.png"
+              src="/images/logo-banten.png"
               width="300px"
               height="400px"
             />
