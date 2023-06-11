@@ -281,7 +281,7 @@ export default {
       '&copy; <a style="color:brown" target="_blank" href="#">Pemerintahan Provinsi Banten</a>',
     zoom: 11,
     //-6.1716001, 106.6405384
-    center: [-6.1716001, 106.6405384],
+    center: [-6.172895740201568, 106.15642547732148],
 
     geosearchOptions: {
       // Important part Here
