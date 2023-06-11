@@ -9,8 +9,8 @@
           <div class="ilustration">
             <img
               src="/images/logo-banten.png"
-              width="300px"
-              height="400px"
+              width="250px"
+              height="300px"
             />
           </div>
         </v-row>
@@ -20,7 +20,7 @@
         class="animated animate__fadeInRight"
       >
         <div class="login-title">
-          LOGIN MATA RAKSA
+          LOGIN CCTV BANTEN PROV
         </div>
         <div class="login-subtitle">
           Silahkan masukan pengguna dan kata sandi anda...!

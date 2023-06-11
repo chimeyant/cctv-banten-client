@@ -82,7 +82,7 @@ export default {
   name: "HeaderComponent",
 
   data: () => ({
-    menus: [{ title: "Login", route: "/login" }],
+    menus: [{ title: "Home", route: "/home" }],
   }),
   mounted() {},
   computed: {
