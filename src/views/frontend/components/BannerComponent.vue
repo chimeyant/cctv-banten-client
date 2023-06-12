@@ -29,15 +29,11 @@
           :visible="item.visible"
           :draggable="item.draggable"
           :lat-lng.sync="item.position"
+          @click="openVideo(item)"
         >
 
-          <l-icon
-            iconSize=32
-            icon-url="/images/icon-marker-merah.png"
-          />
-          <l-popup :content="item.tooltip" />
+          <l-icon :icon-url="item.icon" />
           <l-tooltip :content="item.tooltip" />
-
         </l-marker>
 
       </l-map>
@@ -51,8 +47,92 @@
         >
       </div>
     </div>
-    <v-col cols=12>
+    <v-col cols="12">
+      <v-dialog
+        transition="dialog-bottom-transition"
+        v-model="formcctv.show"
+        :max-width="device.desktop ? `600px` : `100%`"
+        persistent
+        :fullscreen="device.mobile"
+      >
+        <v-card>
+          <v-toolbar
+            :color="theme.color"
+            :dark="theme.mode"
+          >
+            <v-icon
+              small
+              class="mr-1 orange--text animate__animated animate__flash animate__infinite"
+            >mdi-circle</v-icon> Pantau CCTV Provinsi Banten
+          </v-toolbar>
+          <v-card-text class="mt-1">
+            <div class="mt-10 flex justify-center">
 
+              <div
+                v-show="progressbar"
+                style=""
+              >
+                <v-progress-circular
+                  indeterminate
+                  :color="theme.color"
+                  style="position: absolute;left: 290px;top: 230px;"
+                >
+                  <span style="margin-top: 75px;">
+                    Loading..
+                  </span>
+                </v-progress-circular>
+              </div>
+              <div>
+                <canvas
+                  id="video"
+                  style="width:100%;height: 100%; background-color: grey ;"
+                >
+                </canvas>
+                <v-col
+                  cols="12"
+                  class="mt-3"
+                >
+                  <v-row>
+                    <tbody>
+                      <tr>
+                        <td>Nama</td>
+                        <td>&nbsp;:&nbsp;</td>
+                        <td style="font-weight: bold;">{{ formcctv.record.name}}</td>
+                      </tr>
+                      <tr>
+                        <td>Alamat</td>
+                        <td>&nbsp;:&nbsp;</td>
+                        <td>{{ formcctv.record.address}}</td>
+                      </tr>
+                      <tr>
+                        <td>Status</td>
+                        <td>&nbsp;:&nbsp;</td>
+                        <td>
+                          <div>
+                            <v-chip
+                              class="white--text"
+                              small
+                              :color="formcctv.record.status.color"
+                            >{{ formcctv.record.status.text }}</v-chip>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </v-row>
+                </v-col>
+              </div>
+            </div>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions class="justify-end">
+            <v-btn
+              outlined
+              color="grey"
+              @click="stopVideo"
+            >Tutup</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-col>
   </div>
 </template>
@@ -70,6 +150,7 @@ import {
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import VGeosearch from "vue2-leaflet-geosearch";
 import "leaflet/dist/leaflet.css";
+import JSMpeg from "@cycjimmy/jsmpeg-player";
 
 export default {
   name: "banner-component",
@@ -110,68 +191,70 @@ export default {
       visible: true,
     },
 
+    progressbar: false,
+    player: null,
     markers: [],
 
-    formcctv: {},
+    formcctv: {
+      show: false,
+      record: {
+        name: "",
+        address: "",
+        status: "",
+      },
+    },
   }),
   mounted() {
     this.setPage({
       crud: false,
     });
-    this.fetchSliders();
-    this.fetchBerita();
-    this.fetchLatestVideo();
-    this.fetchVideos();
+    this.fetchCctv();
   },
 
   computed: {
-    ...mapState(["device", "http", "info"]),
-    player() {
-      return this.$refs.youtube.player;
-    },
+    ...mapState(["device", "http", "info", "theme"]),
   },
   methods: {
     ...mapActions(["setPage"]),
-    fetchSliders: async function () {
+    fetchCctv: async function () {
       try {
-        let { data } = await this.http.get("sliders");
-        this.sliders = data;
+        let { data } = await this.http.get("cctv-lists");
+        this.markers = data;
       } catch (error) {}
     },
-    playVideo() {
-      this.player.playVideo();
-    },
-    playing() {
-      console.log("o/ we are watching!!!");
-    },
-    fetchBerita: async function () {
+    openVideo: function (item) {
       try {
-        let { data } = await this.http.get("berita-kabupaten");
-        this.beritas = data;
-      } catch (error) {}
+        this.formcctv.show = true;
+        setTimeout(() => {
+          this.progressbar = true;
+          let canvas = document.getElementById("video");
+          //let url = `ws://localhost:9999?url=${encodeURIComponent(item.rstp)}`;
+          let url = `wss://cctv.bantenprov.go.id:9999?url=${encodeURIComponent(
+            item.rstp
+          )}`;
+          this.player = new JSMpeg.Player(url, {
+            canvas: canvas,
+            onSourceEstablished: (val) => this.onSourceCompleted(val),
+          });
+
+          this.formcctv.record.name = item.name;
+          this.formcctv.record.address = item.address;
+          this.formcctv.record.status = item.status;
+        }, 500);
+      } catch (error) {
+      } finally {
+      }
     },
-    fetchFoto: async function () {
-      try {
-        let { data } = await this.http.get("api/gallery-foto");
-        this.fotos = data;
-      } catch (error) {}
+    stopVideo: function () {
+      this.closeForm();
+      this.player.destroy();
     },
-    fetchLatestVideo: async function () {
-      try {
-        let { data } = await this.http.get("show-latest-video");
-        this.video = data;
-      } catch (error) {}
+
+    onSourceCompleted(source) {
+      this.progressbar = false;
     },
-    fetchVideos: async function () {
-      try {
-        let { data } = await this.http.get("show-video");
-        this.videos = data;
-      } catch (error) {}
-    },
-    openDetailBerita: function (val) {
-      window.open(
-        "https://tangerangkab.go.id/detail-konten/show-berita/" + val
-      );
+    closeForm: function () {
+      this.formcctv.show = false;
     },
   },
 };

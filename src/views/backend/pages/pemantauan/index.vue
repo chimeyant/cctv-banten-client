@@ -400,10 +400,10 @@ export default {
           edit: false,
         }).then(() => {
           let canvas = document.getElementById("video");
-          // let url = `ws://localhost:9999?url=${encodeURIComponent(rstp)}`;
-          let url = `wss://cctv.bantenprov.go.id:9999?url=${encodeURIComponent(
-            rstp
-          )}`;
+          let url = `ws://localhost:9999?url=${encodeURIComponent(rstp)}`;
+          // let url = `wss://cctv.bantenprov.go.id:9999?url=${encodeURIComponent(
+          //   rstp
+          // )}`;
           this.player = new JSMpeg.Player(url, {
             canvas: canvas,
             onSourceEstablished: (val) => this.onSourceCompleted(val),
