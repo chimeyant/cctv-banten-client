@@ -70,7 +70,7 @@ export default {
         this.getAppInfo().then(() => {
           window.document.title = this.info.app_company;
           const favicon = window.document.getElementById("favicon");
-          favicon.href = this.info.apps_logo;
+          favicon.href = "images/logo-banten.png";
         });
       });
     });
