@@ -178,7 +178,7 @@ export default {
     url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
     attribution:
       '&copy; <a style="color:green" target="_blank" href="#">Pemerintah Provinsi Banten</a>',
-    zoom: 12,
+    zoom: 13,
     //-6.1716001, 106.6405384
     center: [-6.172895740201568, 106.15642547732148],
 
