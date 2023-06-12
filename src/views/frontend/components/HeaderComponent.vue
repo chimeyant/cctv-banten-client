@@ -42,7 +42,7 @@
         :key="index"
         :to="menu.route"
       >
-        <v-list-item-title :class="page.name=='home' ? ` rounded-2 black--text`: `black--text rounded-2`">{{ menu.title }}</v-list-item-title>
+        <v-list-item-title :class="page.name=='home' ? ` rounded-2 blue--text`: `blue--text rounded-2`">{{ menu.title }}</v-list-item-title>
       </v-list-item>
     </v-list>
 
