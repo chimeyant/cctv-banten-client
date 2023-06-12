@@ -25,7 +25,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-row class="justify-center brown darken-4 mt-5">
+    <v-row class="justify-center green darken-4 mt-5">
       <div class="copyright white--text p-5">
         <center>
           Copyright &copy; 2022 - 2023
