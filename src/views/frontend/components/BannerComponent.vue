@@ -1,10 +1,10 @@
 <template>
   <div
     class="mt-100"
-    style="background-color: green;"
+    style="background-color:green;"
   >
     <img
-      src="/images/city.jpeg"
+      src="/images/bg-cctv-banten.jpg"
       alt=""
       class="banner-hero"
       style="border-bottom-left-radius: 30px;"
@@ -32,7 +32,10 @@
           @click="openVideo(item)"
         >
 
-          <l-icon :icon-url="item.icon" />
+          <l-icon
+            :icon-url="item.icon"
+            :iconSize="item.size"
+          />
           <l-tooltip :content="item.tooltip" />
         </l-marker>
 
@@ -228,10 +231,10 @@ export default {
         setTimeout(() => {
           this.progressbar = true;
           let canvas = document.getElementById("video");
-          //let url = `ws://localhost:9999?url=${encodeURIComponent(item.rstp)}`;
-          let url = `wss://cctv.bantenprov.go.id:9999?url=${encodeURIComponent(
-            item.rstp
-          )}`;
+          let url = `ws://localhost:9999?url=${encodeURIComponent(item.rstp)}`;
+          // let url = `wss://cctv.bantenprov.go.id:9999?url=${encodeURIComponent(
+          //   item.rstp
+          // )}`;
           this.player = new JSMpeg.Player(url, {
             canvas: canvas,
             onSourceEstablished: (val) => this.onSourceCompleted(val),
