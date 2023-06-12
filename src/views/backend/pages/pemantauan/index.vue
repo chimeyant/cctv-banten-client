@@ -400,6 +400,8 @@ export default {
         }).then(() => {
           let canvas = document.getElementById("video");
           //let url = `ws://localhost:9999?url=${encodeURIComponent(rstp)}`;
+
+          //production
           let url = `wss://cctv.bantenprov.go.id:9999?url=${encodeURIComponent(
             rstp
           )}`;
