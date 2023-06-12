@@ -6,7 +6,7 @@
 
     <img
       src="/images/bg-cctv-banten.jpg"
-      alt=""
+      alt="bg cctv"
       class="banner-hero"
       style="border-bottom-left-radius: 30px;"
     >
