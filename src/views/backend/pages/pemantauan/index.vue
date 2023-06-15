@@ -402,7 +402,7 @@ export default {
           //let url = `ws://localhost:9999?url=${encodeURIComponent(rstp)}`;
 
           //production
-          let url = `ws://cctv.bantenprov.go.id:9999?url=${encodeURIComponent(
+          let url = `wss://cctv.bantenprov.go.id:9999?url=${encodeURIComponent(
             rstp
           )}`;
           this.player = new JSMpeg.Player(url, {
