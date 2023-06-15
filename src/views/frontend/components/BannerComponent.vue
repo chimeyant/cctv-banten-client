@@ -232,10 +232,10 @@ export default {
         setTimeout(() => {
           this.progressbar = true;
           let canvas = document.getElementById("video");
-          let url = `ws://localhost:9999?url=${encodeURIComponent(item.rstp)}`;
-          //let url = `wss://cctv.bantenprov.go.id:9999?url=${encodeURIComponent(
-          //   item.rstp
-          // )}`;
+          //let url = `ws://localhost:9999?url=${encodeURIComponent(item.rstp)}`;
+          let url = `wss://cctv.bantenprov.go.id:9999?url=${encodeURIComponent(
+            item.rstp
+          )}`;
           this.player = new JSMpeg.Player(url, {
             canvas: canvas,
             onSourceEstablished: (val) => this.onSourceCompleted(val),
