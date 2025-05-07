@@ -233,7 +233,11 @@ export default {
           this.progressbar = true;
           let canvas = document.getElementById("video");
 
-          let url = `ws://localhost:9999?play=` + encodeURIComponent(item.id);
+          // let url = `ws://localhost:9999?id=` + encodeURIComponent(item.id);
+
+          let url = `wss://cctv.bantenprov.go.id/play?id=${encodeURIComponent(
+            item.id
+          )}`;
 
           // let url = `wss://cctv.bantenprov.go.id/play?url=${encodeURIComponent(
           //   item.rstp
