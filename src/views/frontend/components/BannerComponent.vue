@@ -235,7 +235,7 @@ export default {
 
           // let url = `ws://localhost:9999?id=` + encodeURIComponent(item.id);
 
-          let url = `wss://cctv.bantenprov.go.id/?id=${encodeURIComponent(
+          let url = `wss://cctv.bantenprov.go.id/play?id=${encodeURIComponent(
             item.id
           )}`;
 
